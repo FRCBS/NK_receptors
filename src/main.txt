@@ -1,0 +1,187 @@
+#################################################################################################################
+# NK cell receptor SNP association in donors
+#################################################################################################################
+
+# Katarzyna's SNPs
+
+# a list of SNPs
+# look for their locations from https://www.ncbi.nlm.nih.gov/snp/
+# locations for all but 2 indels
+
+# see if the hg19 and hg38 data has these SNPs
+./src/look_for_nk_snps.R
+# lists of SNP IDs for all SNPs together & receptors and ligands separately
+
+#---------------------------------------------------------------------------
+
+# for Leena's SNP list
+
+# find Leena's SNPs
+./src/find_SNP_locations.R # get positions
+./src/find_SNPs_form_datasets.R # get names in our datasets using the locations
+
+#--------------------------------------------------------------------------
+
+# merge both SNP lists together
+./src/merge_SNP_lists.R # merge receptor SNP lists 
+
+# a list of all SNPs (Leena + Katarzyna) and their locations/positions made in 
+./src/all_NK_SNPs_locations.R
+# for extracting the SNPs form Leena's biobank donors
+
+#--------------------------------------------------------------------------
+
+# extracting NK receptor SNPs
+# extract and merge in VCF format
+# then transform to PGEN format with genotype probability as a dosage to include imputation quality in the plink file format files
+
+# extract NK SNPs from vcf files
+./src/extract_NK_SNPs_from_vcfs_eur.sh
+./src/extract_NK_SNPs_from_vcfs_finns.sh
+
+# merge chrs for each dataset with extracted NK SNPs
+./src/merge_vcf_chrs_eur.sh
+./src/merge_vcf_chrs_finns.sh # results from this transferred from epouta to linux
+
+# merge finnish datasets
+./src/merge_vcf_finns.sh
+
+# merge all datasets
+./src/merge_all_datasets.sh
+
+# from vcf to pgen
+./src/vcf_to_pgen.sh
+
+# get common SNPs between all datasets
+# find common NK receptor SNPs
+./src/common_NK_SNPs_all_imputed.R
+# extract common NK receptor SNPs from the merged dataset and individual datasets
+./src/extract_common_SNPs.sh
+
+# filter individuals
+# some to be removed from uk donors and poland
+# some non-HSCT-samples in finns, some duplicates in finns
+# checking IDs
+./src/filter_IDs.R
+# remove individuals
+./src/filter_individuals.sh
+
+# force the same alt/ref allele for association testing for all datasets
+./src/NK_cell_SNPs/ref_alleles.R # make a file of the ref/alt alleles to force
+./src/NK_cell_SNPs/change_ref_allele.sh
+
+#---------------------------------------------------------------------------
+
+# pheno and covariate files already made in the patient_information folder
+# modify pheno and covariates
+./src/modify_pheno_and_covariates.R
+# includes all IDs (train & test) -> in plink using ID lists to leave in correct individuals
+# make covariates be binary, one covar per level
+
+# correlation matix for the covariates
+./src/NK_covariate_correlation_matrix.R
+
+# supple table: all genes and SNPs and if they were found from all the populations or not
+./src/supple_table_SNPs.R
+# includes NK receptor SNP flow and numbers for datasets
+
+#---------------------------------------------------------------------------
+
+# association testing
+
+# copied ID lists from patient information folder to this project's folder
+#./results/ID_lists/train_sample_ids_donors.txt
+#./results/ID_lists/test_sample_ids_donors.txt
+# copied ID lists from patient information folder to this project's folder
+#./results/ID_lists/donors_train_relapse.txt
+#./results/ID_lists/donors_test_relapse.txt
+
+# association testing
+./src/NK_cell_SNPs/association_testing.sh
+
+# gather association results into cleaner tables
+./src/results_to_tables.R # uses a table of all the SNPs from ./src/supple_table_SNPs.R above (& also copied below)
+
+#---------------------------------------------------------------------------
+
+# try choosing the SNPs with lasso
+
+# get dosage
+./src/pgen_dosage.sh
+# lasso to select SNPs
+./src/SNP_selection_with_lasso.R
+
+#################################################################################################################
+
+# Leena's blood donors 
+
+# genotypes
+
+# from vcf to plinkk format
+./src/leena_donors_plink_format.sh
+# get the SNP names in leena's donors
+./src/leena_donors_snp_names.R
+# leave SNPs with interesting preliminary results
+./src/leena_donors_extract_snps.sh
+# dosage for extracted snps
+./src/leena_donors_extract_snps_dosage.sh
+
+# process in vitro data
+./src/NK_assay_parsing.R
+
+# analysis for leena's data
+./src/NK_killing_activity.R
+
+#################################################################################################################
+
+# tables and figures for paper
+
+# supple table: all genes and SNPs and if they were found from all the populations or not
+./src/supple_table_SNPs.R
+# includes NK receptor SNP flow and numbers for datasets
+# (already ran above, here to show where all the supple material is made in)
+
+# table 1, the cohorts
+./src/cohorts_table_SNPs.R
+
+# make the tables look cleaner
+./src/modify_tables.R
+# table 1, supple tables (all NK receptor SNPs)
+# uses a file made by hand: 
+# ./results/for_paper/supple_table_diseases_for_translating_names_harmonized.txt 
+# & ./results/for_paper/supple_table_diseases_for_translating_names_test_harmonized.txt
+
+# plots of the results
+./src/results_plots.R
+
+
+# modify tables to be in the supplementary material
+./src/clean_tables.R
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
