@@ -164,9 +164,8 @@ p3 <- ggplot(K562_relapse, aes(beta, Rsid))  +
   ylab("") + xlab("") +
   annotate("rect", xmin = -Inf, xmax = Inf, ymin = 0.4, ymax = 2.5,
            alpha = .25, fill = 'grey') +
-  facet_grid(pheno ~ group, scales = 'free') +
+  facet_grid(cols = vars(group), scales = 'free') +
   theme_minimal() + th
-
 
 # NK / cGvHD
 p4 <- ggplot(K562_cGvHD, aes(beta, Rsid))  + 
@@ -177,7 +176,7 @@ p4 <- ggplot(K562_cGvHD, aes(beta, Rsid))  +
   ylab("") +
   annotate("rect", xmin = -Inf, xmax = Inf, ymin = 0.4, ymax = 3.5,
            alpha = .25, fill = 'grey') +
-  facet_grid(pheno ~ group, scales = 'free') +
+  facet_grid(cols = vars(group), scales = 'free') +
   theme_minimal() + th
 
 

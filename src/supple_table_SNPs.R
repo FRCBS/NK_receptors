@@ -137,14 +137,14 @@ pos <- function(biomart_results){
   
 }
 
-ADGRG1 <- pos(ADGRG1) # 51 SNPs in total, 49 now
-CD2 <- pos(CD2) # 25, 20 now
-CD226 <- pos(CD226) # 369, 362 now
-CD244 <- pos(CD244) # 340, 335 now
-CD48 <- pos(CD48) # 71, 60 now
-CD58 <- pos(CD58) # 27 , 27 now
-FCGR3A <- pos(FCGR3A) # 144 , 130 now
-NKG2A <- pos(NKG2A) # 1, 1 now
+ADGRG1 <- pos(ADGRG1) 
+CD2 <- pos(CD2) 
+CD226 <- pos(CD226) 
+CD244 <- pos(CD244) 
+CD48 <- pos(CD48) 
+CD58 <- pos(CD58) 
+FCGR3A <- pos(FCGR3A) 
+NKG2A <- pos(NKG2A) 
 
 # add gene name cols
 ADGRG1$gene <- "ADGRG1"

@@ -111,6 +111,18 @@
 # lasso to select SNPs
 ./src/SNP_selection_with_lasso.R
 
+#---------------------------------------------------------------------------
+
+# survival analysis for the 4 SNPs
+./src/survival_dosage.sh
+./src/NK_survival.R
+
+
+
+
+
+
+
 #################################################################################################################
 
 # Leena's blood donors 
@@ -142,7 +154,7 @@
 # (already ran above, here to show where all the supple material is made in)
 
 # table 1, the cohorts
-./src/cohorts_table_SNPs.R
+./src/cohorts_table.R
 
 # make the tables look cleaner
 ./src/modify_tables.R
@@ -159,8 +171,8 @@
 ./src/clean_tables.R
 
 
-
-
+# make a small table of the genes and SNPs
+./src/gene_table.R
 
 
 
