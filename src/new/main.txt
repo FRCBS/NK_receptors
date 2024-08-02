@@ -1,0 +1,269 @@
+#################################################################################################################
+# NK cell receptor SNP association in donors
+
+# first the original scripts (now in /home/nihtiju/work/NK_receptors/src/original/ even if the paths do not have the folder "original" in the names)
+# then the cleaned and modified scripts (in /home/nihtiju/work/NK_receptors/src/new/)
+
+#################################################################################################################
+
+# modified and cleaned code
+
+# Leena & Katarzyna's SNP lists, all SNPs in the genes & eQTL SNPs for the genes & new genes
+
+#----------------------------------------------------------------------------------------------------------------
+
+# all SNPs (in the area) for all genes + additional genes
+
+# find gene starting and end points for all genes
+# dbSNP -> search each gene for humans and get start and end position in hg38
+# saved into 
+#/home/nihtiju/work/NK_receptors/results/receptor_gene_start_end_points.ods
+#/home/nihtiju/work/NK_receptors/results/gene_start_end.txt
+# also start and end positions from plink's website -> these used to extract the SNPs now
+
+# which SNPs are in these areas / ranges?
+# extract ranges from plink1.9 files (before QC or INFO filtering, in epouta) -> get SNP names -> extract from plink2 files like in the original scripts
+/home/nihtiju/work/NK_receptors/src/new/make_range_file.R
+/home/nihtiju/work/NK_receptors/src/new/extract_ranges_plink1.sh
+# files saved to /home/nihtiju/work/NK_receptors/results/extract_range/extracted_ranges_ic1.bed/bim/fam/log
+
+# find eQTL-SNP names from our data
+/home/nihtiju/work/NK_receptors/src/new/eqtl_SNPs.R
+
+# make a file with SNP names to extract to pgen files (all SNPs from genes + eQTL genes)
+/home/nihtiju/work/NK_receptors/src/new/make_SNP_name_file.R
+
+
+#----------------------------------------------------------------------------------------------------------------
+
+# Katarzyna's SNPs
+
+# a list of SNPs
+# look for their locations from https://www.ncbi.nlm.nih.gov/snp/
+# locations for all but 2 indels
+
+# see if the hg19 and hg38 data has these SNPs
+/home/nihtiju/work/NK_receptors/src/new/look_for_nk_snps.R
+# lists of SNP IDs for all SNPs together & receptors and ligands separately
+
+#---------------------------------------------------------------------------
+
+# for Leena's SNP list
+
+# find Leena's SNPs
+/home/nihtiju/work/NK_receptors/src/new/find_SNP_locations.R # get positions
+/home/nihtiju/work/NK_receptors/src/new/find_SNPs_form_datasets.R # get names in our datasets using the locations
+
+#--------------------------------------------------------------------------
+
+# merge both SNP lists together (Leena + Katarzyna)
+/home/nihtiju/work/NK_receptors/src/new/merge_SNP_lists.R # merge receptor SNP lists 
+
+# a list of all SNPs (Leena + Katarzyna) and their locations/positions made in 
+/home/nihtiju/work/NK_receptors/src/new/all_NK_SNPs_locations.R
+# for extracting the SNPs form Leena's biobank donors
+
+################################################################################
+# this SNP list does not include all SNPs in the analysis now!!! 
+################################################################################
+
+#----------------------------------------------------------------------------------------------------------------
+
+# extract old SNPs (Leena and Katarzyna's) and new SNPs together
+
+# merge SNP name lists
+/home/nihtiju/work/NK_receptors/src/new/merge_SNP_all_lists.R
+
+# extract SNPs
+/home/nihtiju/work/NK_receptors/src/new/extract_SNPs_from_vcfs_eur.sh
+/home/nihtiju/work/NK_receptors/src/new/extract_SNPs_from_vcfs_finns.sh
+
+# merge chrs for each dataset with extracted NK SNPs
+/home/nihtiju/work/NK_receptors/src/new/merge_chrs_eur.sh
+/home/nihtiju/work/NK_receptors/src/new/merge_chrs_finns.sh # results from this transferred from epouta to linux
+
+# merge finnish datasets
+/home/nihtiju/work/NK_receptors/src/new/merge_finns.sh
+
+# merge all datasets
+/home/nihtiju/work/NK_receptors/src/new/merge_datasets.sh
+
+# from vcf to pgen
+/home/nihtiju/work/NK_receptors/src/new/vcf_to_pgen.sh
+
+# get common SNPs between all datasets
+# find common NK receptor SNPs
+/home/nihtiju/work/NK_receptors/src/new/common_SNPs_all_imputed.R
+# extract common NK receptor SNPs from the merged dataset and individual datasets
+/home/nihtiju/work/NK_receptors/src/new/extract_common_SNPs.sh
+
+# filter individuals
+# some to be removed from uk donors and poland
+# some non-HSCT-samples in finns, some duplicates in finns
+# checking IDs
+/home/nihtiju/work/NK_receptors/src/new/filter_IDs.R 
+# remove individuals
+/home/nihtiju/work/NK_receptors/src/new/filter_individuals.sh
+
+# force the same alt/ref allele for association testing for all datasets
+/home/nihtiju/work/NK_receptors/src/new/ref_alleles.R # make a file of the ref/alt alleles to force
+/home/nihtiju/work/NK_receptors/src/new/change_ref_allele.sh
+
+
+# LD filter the SNPs
+/home/nihtiju/work/NK_receptors/src/new/LD_filtering.sh # filters all SNPs (old and new at the same time)
+# LD filter only the new SNPs
+/home/nihtiju/work/NK_receptors/src/new/SNP_lists.R
+/home/nihtiju/work/NK_receptors/src/new/LD_filtering_newSNPs.sh
+
+
+
+# pheno and covariate files already made in the patient_information folder
+# modify pheno and covariates
+/home/nihtiju/work/NK_receptors/src/new/modify_pheno_and_covariates.R
+# includes all IDs (train & test) -> in plink using ID lists to leave in correct individuals
+# make covariates be binary, one covar per level, two biggest levels combined into one variable
+
+# correlation matix for the covariates
+/home/nihtiju/work/NK_receptors/src/new/covariate_correlation_matrix.R
+
+
+# ID lists for association testing
+# copied ID lists from patient information folder to this project's folder
+#/home/nihtiju/work/NK_receptors/results/ID_lists/train_sample_ids_donors.txt
+#/home/nihtiju/work/NK_receptors/results/ID_lists/test_sample_ids_donors.txt
+# copied ID lists from patient information folder to this project's folder
+#/home/nihtiju/work/NK_receptors/results/ID_lists/donors_train_relapse.txt
+#/home/nihtiju/work/NK_receptors/results/ID_lists/donors_test_relapse.txt
+
+
+
+
+# association testing for all SNPs
+/home/nihtiju/work/NK_receptors/src/new/association.sh
+
+# association testing when SNPs are first LD-pruned
+/home/nihtiju/work/NK_receptors/src/new/association_LD.sh # all SNPs LD-pruned together
+/home/nihtiju/work/NK_receptors/src/new/association_LD_newOnly.sh # only new SNPs LD-pruned
+
+
+# gather association results into tables to choose SNPs to continue with
+/home/nihtiju/work/NK_receptors/src/new/results_to_tables.R
+
+#--------------------------------------------------------------------------
+
+# try choosing the SNPs with lasso
+
+# get dosage
+/home/nihtiju/work/NK_receptors/src/new/pgen_dosage.sh
+# lasso for SNP selection
+/home/nihtiju/work/NK_receptors/src/new/lasso.R 
+
+####################################################
+# lasso unfinished now!
+####################################################
+
+
+#--------------------------------------------------------------------------
+
+# survival
+
+/home/nihtiju/work/NK_receptors/src/new/NK_survival.R
+
+####################################################
+# survival unfinished now!
+####################################################
+
+#--------------------------------------------------------------------------
+
+# Leena's blood donors 
+
+# genotypes
+
+# from vcf to plink format
+/home/nihtiju/work/NK_receptors/src/new/blood_donors_plink_format.sh
+
+# get the SNP names in blood donors
+/home/nihtiju/work/NK_receptors/src/new/blood_donors_snp_names.R
+
+# leave SNPs with interesting preliminary results
+/home/nihtiju/work/NK_receptors/src/new/blood_donors_extract_snps.sh
+
+# dosage for extracted snps
+./src/blood_donors_extract_snps_dosage.sh
+
+# process in vitro data
+./src/NK_assay_parsing.R
+
+# analysis for blood donor data
+/home/nihtiju/work/NK_receptors/src/new/NK_killing_activity.R
+
+
+#-----fully ok this far-----------------------------------------------------------------------------------------
+
+# unfinished stuff here
+
+
+
+# tables and figures for paper
+
+# supple table: all genes and SNPs and if they were found from all the populations or not
+./src/supple_table_SNPs.R
+# includes NK receptor SNP flow and numbers for datasets
+# (already ran above, here to show where all the supple material is made in)
+
+# table 1, the cohorts
+./src/cohorts_table.R
+
+# make the tables look cleaner
+./src/modify_tables.R
+# table 1, supple tables (all NK receptor SNPs)
+# uses a file made by hand: 
+# ./results/for_paper/supple_table_diseases_for_translating_names_harmonized.txt 
+# & ./results/for_paper/supple_table_diseases_for_translating_names_test_harmonized.txt
+
+# plots of the results
+./src/results_plots.R
+
+
+# modify tables to be in the supplementary material
+./src/clean_tables.R
+
+
+# make a small table of the genes and SNPs
+./src/gene_table.R
+
+
+
+# genotype and allele frequencies
+./src/frequencies.sh
+./src/frequencies.R
+./src/dosage_vs_genotypefreq.R # genotypefrequencies from dosages
+
+
+# get covariate values
+./src/covariate_values.R
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

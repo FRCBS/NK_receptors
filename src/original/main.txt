@@ -176,19 +176,16 @@
 
 
 
+# genotype and allele frequencies
+./src/frequencies.sh
+./src/frequencies.R
+./src/dosage_vs_genotypefreq.R # genotypefrequencies from dosages
 
+# get covariate values
+./src/covariate_values.R
 
-
-
-
-
-
-
-
-
-
-
-
+# plots of the in vitro data
+./src/plots_killing_activity.R
 
 
 
