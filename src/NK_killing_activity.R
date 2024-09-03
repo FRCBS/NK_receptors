@@ -25,10 +25,13 @@ get_results <- function(model, dosage_num, SNP_col){
   
   # get result values
   coeffs <- coef(summary(model))
+  coeffs <- cbind(variable = rownames(coeffs), coeffs)
   coeffs <- as.data.table(coeffs)
   
   cols <- SNP_col # an error without this
   coeffs$SNP <- paste0(colnames(dosage[, ..cols]), "_", dosage_num)
+  
+  print(dosage_num)
 
   # confint the same as confint.merMod in lme4
   CI <- confint(model)
@@ -45,10 +48,12 @@ get_results <- function(model, dosage_num, SNP_col){
   
 }
 
-# results_0 <- get_results(intercept_K562_0, "0", j)
+results_0 <- get_results(intercept_K562_0, "0", j)
+results_0 <- get_results(intercept_K562_0, "0", col)
 
 # a table to save all results
-all <- data.table("Estimate"=numeric(),
+all <- data.table("variable"=character(),
+                  "Estimate"=numeric(),
                   "Std. Error"=numeric(),
                   "df"=numeric(),
                   "t value"=numeric(),
@@ -83,7 +88,6 @@ for (i in c(1,6,7,12,18)) {
   dosage$sample <- str_replace_all(dosage$sample, "NK0", "NK")
   # order dosages to be the same as other data
   dosage <- dosage[match(cytotoxicity_data_factors$SAMPLE, dosage$sample),]
-  # NK1 in in vitro data but missing from the genotype data
   
   # get cell lines separately
   # using only K562 here
@@ -107,7 +111,7 @@ for (i in c(1,6,7,12,18)) {
       intercept_K562_0 <- lmer(VAL ~ DIL_NUM + HLAC + KIR + CMV + dosage_0 + (1|SAMPLE), data = cytotoxicity_data_factors_K562)
       col <- j
       results_0 <- get_results(intercept_K562_0, "0", col)
-      # all <- rbind(all, results_0)
+      all <- rbind(all, results_0)
     } else {
       intercept_K562_0 <- NA
       results_0 <- NA
@@ -140,7 +144,7 @@ for (i in c(1,6,7,12,18)) {
 # for some SNPs there is only one genotype in the blood donors
 # for these, no model is ran & the SNPs are missing from the final result table
 
-# add rsIDs
+# add rsIDs?
 # like this before
 # rsids <- c(paste(rep("rs11585450", 3), c("CC", "GC", "GG")), paste(rep("rs1875763", 3), c("GG", "CG", "CC")), paste(rep("rs8087187", 2), c("AA", "CA")), paste(rep("rs3911730", 2), c("CC", "AC")))
 

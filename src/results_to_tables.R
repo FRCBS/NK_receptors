@@ -101,13 +101,6 @@ make_association_tables <- function(results_path, tested_set){
   
 }
 
-
-make_association_tables("/home/nihtiju/work/NK_receptors/results/association_LD/train", "train")
-make_association_tables("/home/nihtiju/work/NK_receptors/results/association_LD/test", "test")
-
-make_association_tables("/home/nihtiju/work/NK_receptors/results/association/train", "train")
-make_association_tables("/home/nihtiju/work/NK_receptors/results/association/test", "test")
-
 make_association_tables("/home/nihtiju/work/NK_receptors/results/association_LD_newOnly/train", "train")
 make_association_tables("/home/nihtiju/work/NK_receptors/results/association_LD_newOnly/test", "test")
 
@@ -123,50 +116,11 @@ results_cGvHD_severe_broader <- fread("/home/nihtiju/work/NK_receptors/results/a
 results_cGvHD_severe <- fread("/home/nihtiju/work/NK_receptors/results/association_LD_newOnly/train/results_pheno_cGvHD_severe.txt")
 results_relapse <- fread("/home/nihtiju/work/NK_receptors/results/association_LD_newOnly/train/results_pheno_relapse.txt")
 
-
-# results_aGvHD_all <- fread("/home/nihtiju/work/NK_receptors/results/association_LD/train/results_pheno_aGvHD_all.txt")
-# results_aGvHD_severe <- fread("/home/nihtiju/work/NK_receptors/results/association_LD/train/results_pheno_aGvHD_severe.txt")
-# results_cGvHD_all <- fread("/home/nihtiju/work/NK_receptors/results/association_LD/train/results_pheno_cGvHD_all.txt")
-# results_cGvHD_severe_broader <- fread("/home/nihtiju/work/NK_receptors/results/association_LD/train/results_pheno_cGvHD_severe_broader.txt")
-# results_cGvHD_severe <- fread("/home/nihtiju/work/NK_receptors/results/association_LD/train/results_pheno_cGvHD_severe.txt")
-# results_relapse <- fread("/home/nihtiju/work/NK_receptors/results/association_LD/train/results_pheno_relapse.txt")
-
-
-# results_aGvHD_all <- fread("/home/nihtiju/work/NK_receptors/results/association/train/results_pheno_aGvHD_all.txt")
-# results_aGvHD_severe <- fread("/home/nihtiju/work/NK_receptors/results/association/train/results_pheno_aGvHD_severe.txt")
-# results_cGvHD_all <- fread("/home/nihtiju/work/NK_receptors/results/association/train/results_pheno_cGvHD_all.txt")
-# results_cGvHD_severe_broader <- fread("/home/nihtiju/work/NK_receptors/results/association/train/results_pheno_cGvHD_severe_broader.txt")
-# results_cGvHD_severe <- fread("/home/nihtiju/work/NK_receptors/results/association/train/results_pheno_cGvHD_severe.txt")
-# results_relapse <- fread("/home/nihtiju/work/NK_receptors/results/association/train/results_pheno_relapse.txt")
-
 filter_results <- function(table, p_cutoff){
   
   return(table[table$P_all < p_cutoff,])
   
 }
-
-# all LD-rṕruned together
-
-# # results_aGvHD_all <- filter_results(results_aGvHD_all, 0.01) # 4
-# # results_aGvHD_severe <- filter_results(results_aGvHD_severe, 0.01) # 2
-# # results_cGvHD_all <- filter_results(results_cGvHD_all, 0.01) # 9
-# # results_cGvHD_severe_broader <- filter_results(results_cGvHD_severe_broader, 0.01) # 2
-# # results_cGvHD_severe <- filter_results(results_cGvHD_severe, 0.01) # 4
-# # results_relapse <- filter_results(results_relapse, 0.01) # 3
-# 
-# results_aGvHD_all <- filter_results(results_aGvHD_all, 0.005) # 2 kpl
-# results_aGvHD_severe <- filter_results(results_aGvHD_severe, 0.005) # 0 kpl
-# results_cGvHD_all <- filter_results(results_cGvHD_all, 0.005) # 3 kpl
-# results_cGvHD_severe_broader <- filter_results(results_cGvHD_severe_broader, 0.005) # 1 kpl
-# results_cGvHD_severe <- filter_results(results_cGvHD_severe, 0.005) # 0 kpl
-# results_relapse <- filter_results(results_relapse, 0.005) # 1 kpl
-# 
-# # results_aGvHD_all <- filter_results(results_aGvHD_all, 0.001) # 0 kpl
-# # results_aGvHD_severe <- filter_results(results_aGvHD_severe, 0.001) # 0 kpl
-# # results_cGvHD_all <- filter_results(results_cGvHD_all, 0.001) # 2 kpl
-# # results_cGvHD_severe_broader <- filter_results(results_cGvHD_severe_broader, 0.001) # 0 kpl
-# # results_cGvHD_severe <- filter_results(results_cGvHD_severe, 0.001) # 0 kpl
-# # results_relapse <- filter_results(results_relapse, 0.001) # 0 kpl
 
 # only new ones LD pruned together
 
