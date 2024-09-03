@@ -267,58 +267,6 @@ ggsave(file = "./results/for_paper/survival/RFS_univariate.png", dpi = 600, widt
 
 ###########################################################################################################################
 
-# # read in covariates
-# # using the ones made in the thymic SNP project
-# covars <- fread("/home/nihtiju/work/HSCT_predictor/results/thymic_SNP/survival/survival_data_thymus_factors.txt")
-# data <- cbind(data, covars[,7:16])
-# 
-# 
-# survival_multivariate <- function(survival_data, SNP_name, tested_set_ids, tested_set){
-#   
-#   # survival_data <- data
-#   # SNP_name <- "chr1_161547427_G_A_A"
-#   # SNP_name <- "chr6_32372291_C_T_T"
-#   
-#   SNP_info <- fread("/home/nihtiju/work/NK_receptors/results/association_LD_newOnly/SNPs_wanted_info.csv")
-#   rsID <- SNP_info$rsID[SNP_info$ID == str_sub(SNP_name, 1, -3)]
-#   
-#   col <- colnames(dosage) %like% SNP_name
-#   
-#   split <- str_split(SNP_name, "_")
-#   counted <- split[[1]][5]
-#   other <- c(split[[1]][3], split[[1]][4])
-#   other <- other[other != counted]
-#   
-#   survival_data$dosage <- dosage[, ..col]
-#   survival_data$dosage[survival_data$dosage == 2] <- paste0("Donor ", counted, counted)
-#   survival_data$dosage[survival_data$dosage == 1] <- paste0("Donor ", counted, other)
-#   survival_data$dosage[survival_data$dosage == 0] <- paste0("Donor ", other, other)
-#   survival_data$dosage <- factor(survival_data$dosage, levels=c(paste0("Donor ", counted, counted), paste0("Donor ", counted, other), paste0("Donor ", other, other)))
-#   
-#   
-#   res_RFS <- coxph(Surv(relapse_free_survival_years, RFS_status) ~ ., data = survival_data[,-c(1,2,3,4,6,7,10)]) %>% 
-#     tbl_regression(exp = TRUE)  %>%
-#     as_flex_table() 
-#   res_RFS <- bg(res_RFS, bg = "white", part = "all")
-#   save_as_image(res_RFS, path = "/home/nithiju/work/NK_receptors/results/survival/training_set/cox_chr18_70203271_C_A_A_train.png")
-#   paste0("/home/nihtiju/work/NK_receptors/results/survival/RFS_", SNP_name, "_", tested_set, "_multivariate.png")
-#   
-# }
-# 
-# # for all SNPs in a loop
-# for (i in 3:ncol(dosage)) {
-#   
-#   survival_multivariate(data, colnames(dosage)[i], train, "train")
-#   survival_multivariate(data, colnames(dosage)[i], test, "test")
-# }
-
-
-# Warning message:
-# In coxph.fit(X, Y, istrat, offset, init, control, weights = weights,  :
-# Loglik converged before variable  5,9 ; coefficient may be infinite. 
-
-#------------------------------------------------------------------------------------------------------------------------
-
 # multivariate analysis
 # merge 2 smallest genotype groups into one
 

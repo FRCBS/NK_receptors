@@ -10,12 +10,6 @@ pol_IDs <- fread("./results/extract_range/poland_plink_pgen.psam")
 
 all(remove$V2 %in% c(nc_IDs$IID, pol_IDs$IID)) # F
 remove$V2[!(remove$V2 %in% c(nc_IDs$IID, pol_IDs$IID))]
-# [1] "VPU.ND067" "VPU.ND124" "VPU.ND309" "VPU.ND335"
-# [5] "VPU.ND348" "VPU.ND361" "VPU.ND368" "VPU.ND369"
-# [9] "VPU.ND373" "VPU.ND377" "VPU.ND401" "VPU.ND407"
-# [13] "VPU.ND413" "VPU.ND440" "VPU.ND441" "VPU.ND450"
-# [17] "VPU.ND454" "VPU.ND469" "VPU.ND470" "VPU.ND546"
-# [21] "VPU.R167" 
 
 # compare pgen ID lists to older bed/bim/fam ID lists
 # before any ID filtering or QC:
@@ -54,14 +48,6 @@ sum(finns_IDs$IID %in% finns_old)
 
 # get all duplicates:
 finns_IDs$IID[finns_IDs$IID %like% ":"]
-# [1] "4:SPR.DT2401" "4:SPR.DT3313" "4:SPR.DT3491"
-# [4] "4:SPR.DT3700" "4:SPR.DT3784" "4:SPR.DT3887"
-# [7] "4:SPR.DT4205" "4:SPR.DT4311" "4:SPR.DT4357"
-# [10] "4:SPR.DT4392" "4:SPR.DT4430" "4:SPR.T3313" 
-# [13] "4:SPR.T3491"  "4:SPR.T3700"  "4:SPR.T3784" 
-# [16] "4:SPR.T3887"  "4:SPR.T4025"  "4:SPR.T4205" 
-# [19] "4:SPR.T4311"  "4:SPR.T4357"  "4:SPR.T4392" 
-# [22] "4:SPR.T4430" 
 # these are duplicated genotyping IDs, one of the duplicates got file: as a prefix when merging finns
 # all from the 4th fileset that was merged, this is mcgill
 

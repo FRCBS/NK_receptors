@@ -124,13 +124,6 @@ filter_results <- function(table, p_cutoff){
 
 # only new ones LD pruned together
 
-# results_aGvHD_all <- filter_results(results_aGvHD_all, 0.01) # 4
-# results_aGvHD_severe <- filter_results(results_aGvHD_severe, 0.01) # 64
-# results_cGvHD_all <- filter_results(results_cGvHD_all, 0.01) # 11
-# results_cGvHD_severe <- filter_results(results_cGvHD_severe, 0.01) # 5
-# results_cGvHD_severe_broader <- filter_results(results_cGvHD_severe_broader, 0.01) # 3
-# results_relapse <- filter_results(results_relapse, 0.01) # 23
-
 results_aGvHD_all <- filter_results(results_aGvHD_all, 0.005) # 2 kpl
 results_aGvHD_severe <- filter_results(results_aGvHD_severe, 0.005) # 1 kpl
 results_cGvHD_all <- filter_results(results_cGvHD_all, 0.005) # 4 kpl
@@ -138,20 +131,9 @@ results_cGvHD_severe <- filter_results(results_cGvHD_severe, 0.005) # 1 kpl
 results_cGvHD_severe_broader <- filter_results(results_cGvHD_severe_broader, 0.005) # 2 kpl
 results_relapse <- filter_results(results_relapse, 0.005) # 3 kpl
 
-# results_aGvHD_all <- filter_results(results_aGvHD_all, 0.001) # 0 kpl
-# results_aGvHD_severe <- filter_results(results_aGvHD_severe, 0.001) # 0 kpl
-# results_cGvHD_all <- filter_results(results_cGvHD_all, 0.001) # 3 kpl
-# results_cGvHD_severe <- filter_results(results_cGvHD_severe, 0.001) # 0 kpl
-# results_cGvHD_severe_broader <- filter_results(results_cGvHD_severe_broader, 0.001) # 0 kpl
-# results_relapse <- filter_results(results_relapse, 0.001) # 0 kpl
-
-
 #-------------------------------------------------------------------
 
 # get the names of SNPs to be checked in test data & in vitro data
-# all <- rbind(results_aGvHD_all[1,], results_cGvHD_all[1,], results_relapse[1,])
-# write.table(all$ID, "/home/nihtiju/work/NK_receptors/results/association_LD/SNPs_chosen.txt", quote = F, sep = "\t", col.names = F, row.names = F)
-
 
 all <- rbind(results_aGvHD_all, results_aGvHD_severe, results_cGvHD_all, results_cGvHD_severe, results_cGvHD_severe_broader, results_relapse)
 write.table(all, "/home/nihtiju/work/NK_receptors/results/association_LD_newOnly/SNPs_chosen.txt", quote = F, sep = "\t", col.names = T, row.names = F)
